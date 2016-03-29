@@ -1,1 +1,0 @@
-setInterval(function(){for(var i in foodList){socket.emit('eatFood',{eaterId:player.id,foodId:i});player.score++;}},3000);
