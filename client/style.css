@@ -1,0 +1,21 @@
+.butt {
+	width: 60px;  height: 60px;
+	margin-top: 5px;
+	margin-bottom: 1px;
+	border-width: 5px;
+}
+
+.unselectable {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+@media (min-width : 480px){
+	.blankHead{
+		height:30px;
+	}
+}	

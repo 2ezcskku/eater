@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta name="theme-color" content="BLACK">
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link type="text/css" rel="stylesheet" href="client/style.css">
+	<title id="gameVersion">Eater</title>
+</head>
+
+<body style="background-color:black;" class="unselectable">
+	<div align="center" >
+		<div class="blankHead"></div>
+		<canvas id="ctx" width="340" height="400" style="border:1px solid #000000; text-align:center; background-color:#784800;"></canvas>
+		<br>
+		<button onclick=playerMove('up') class="butt">Up</button><br>
+		<button onclick=playerMove('left') class="butt">left</button>
+		<button onclick=playerMove('down') class="butt">down</button>
+		<button onclick=playerMove('right') class="butt">right</button>
+		<img id="logoImg" src="client/img/logo.png" style="display:none">
+		<img id="playerImg" src="client/img/player.png" style="display:none">
+		<img id="ghostImg" src="client/img/ghost.png" style="display:none">
+		<img id="orangeImg" src="client/img/orange.png" style="display:none">
+		<img id="wallImg" src="client/img/wall.png" style="display:none">
+		<img id="pineAppImg" src="client/img/pineApp.png" style="display:none">
+		<img id="donutImg" src="client/img/donut.png" style="display:none">
+		
+	</div>
+</body>
+
+<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+<script src="client/main.js"></script>
+<script src="client/position.js"></script>
+<script src="client/input.js"></script>
+<script src="client/canvas.js"></script>
+<script src="client/food.js"></script>
+<script src="client/collision.js"></script>
+<script src="client/wall.js"></script>
+<script src="client/score.js"></script>
+</html>
