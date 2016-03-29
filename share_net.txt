@@ -1,0 +1,3 @@
+netsh wlan set hostednetwork mode=allow ssid=BonuZz key=bonussunob
+netsh wlan start hostednetwork
+netsh wlan show settings
