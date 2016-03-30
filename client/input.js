@@ -20,7 +20,7 @@ function playerMove(text){
 	socket.emit('playerMove', {
 		txt: text,
 		speed: 30
-	})	
+	});// use non-blocking concept to do client-side prediction. (emit ส่งยังไม่ถึง server ก็สามารถทำบรรทัดต่อไปได้ทันที)
 	playerMove_Prediction(text,30);	
 }
 
