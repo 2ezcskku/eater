@@ -131,12 +131,14 @@ io.sockets.on('connection', function(socket){
 	}	
 	
 	socket.on('eatFood',function(data){
-		console.log(foodList[data.foodId].x,socket.x,foodList[data.foodId].y,socket.y);
-		if(foodList[data.foodId].x == socket.x && foodList[data.foodId].y == socket.y){
+		ateFood = foodList[data.foodId];
+		if(ateFood == null)
+			return;		
+		if(ateFood.x == socket.x && ateFood.y == socket.y){
 			socket.score++;
-			console.log(colors.blue(' [Eat] ')+'food ID:'+colors.yellow(data.foodId)+' by '+colors.yellow(socket.name)+' score:'+colors.yellow(socket.score));
-	        delete foodList[data.foodId];
-			sendFoodPack();
+			console.log(colors.blue(' [Eat] ')+'food ID:'+colors.yellow(ateFood.id)+' by '+colors.yellow(socket.name)+' score:'+colors.yellow(socket.score));
+	        delete foodList[data.foodId]; 
+			sendFoodPack(); 
 		}
 		else{
 			console.log("Cheating!!!!!!!!!!!!!!!!!!!");
