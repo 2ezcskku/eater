@@ -1,3 +1,3 @@
 d:
-cd d:\node\eater
+cd d:\github\eater
 node server.js
