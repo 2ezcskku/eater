@@ -25,6 +25,8 @@ socket.on('newPositions', function(data){
 function drawPlayersPosition(){
 		
 	//player
+	playerList[player.num].x = player.x;
+	playerList[player.num].y = player.y;
 	for(var i in playerList){				
 		ctx.textAlign = "center";
 		var color = 'white';
@@ -39,14 +41,6 @@ function drawPlayersPosition(){
 	}	
 	
 	//over-player
-		ctx.drawImage(ghostImg,20-15,230-15,30,30);
-		/*for(var i = 3; i <= 10; i++){
-			ctx.drawImage(wallImg,mapx[7]-15,mapy[i]-15,30,30);
-		}
-		ctx.drawImage(wallImg,mapx[8]-15,mapy[3]-15,30,30);
-		ctx.drawImage(wallImg,mapx[9]-15,mapy[3]-15,30,30);
-		ctx.drawImage(wallImg,mapx[10]-15,mapy[3]-15,30,30);
-		
-		ctx.drawImage(wallImg,mapx[3]-15,mapy[5]-15,30,30);*/
+		//ctx.drawImage(ghostImg,20-15,230-15,30,30);
 		
 }

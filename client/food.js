@@ -13,7 +13,7 @@ function food(id,type,x,y,width,height){
 
 socket.on('sendFoods', function(data){
 	foodList = {};//foodList.length = data.length;
-	for(var i = 0; i < data.length; i++){	
+	for(var i in data){	
 		food(data[i].id,data[i].type,parseInt(data[i].x),parseInt(data[i].y),parseInt(data[i].width),parseInt(data[i].height));
 	}
 });  

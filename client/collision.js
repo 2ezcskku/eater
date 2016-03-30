@@ -9,33 +9,39 @@ function Collision(obj1,obj2){
 	return distance == 0;
 }
 
-function checkCollision(){	
-	
+function checkPlayerCollision(x,y){		
 	//player and player
-	/*for(var i in foodList){		
-		var isColliding = Collision(player,foodList[i]);
-		if(isColliding){
-			console.log('Colliding!');
-			var tmpId = foodList[i].id;
-			delete foodList[i];
-			socket.emit('eatFood', {
-				name: player.name,
-				id: tmpId
-			});				
-		}	
-	}*/
+	for(var i in playerList){
+		var other = playerList[i];		
+		if(x == other.x && y == other.y){
+			return true;
+		}
+	}	
+	return false;
+}
 
+function checkWallCollision(x,y){		
+	//wall and player
+	for(var i in wallList){
+		var wall = wallList[i];		
+		if(x == wall.x && y == wall.y){
+			return true;
+		}
+	}
+	return false;
+}
+
+function checkFoodCollision(){		
 	//food and player
 	for(var i in foodList){		
 		var isColliding = Collision(player,foodList[i]);
 		if(isColliding){
-			var tmpId = foodList[i].id;
-			delete foodList[i];
-			addScore(1);
+			var tmpId = foodList[i].id;			
 			socket.emit('eatFood', {
-				eaterId: player.id,
 				foodId: tmpId
-			});				
+			});	
+			delete foodList[i];
+			addScore(1);			
 		}	
 	}
 }

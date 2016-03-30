@@ -19,26 +19,44 @@ document.addEventListener('keyup', function (evt) {
 function playerMove(text){
 	socket.emit('playerMove', {
 		txt: text,
-		id: player.id,
 		speed: 30
 	})	
-	//playerMove_Prediction(text);	
+	playerMove_Prediction(text,30);	
 }
 
 
-function playerMove_Prediction(text){		
-	var speed = 30;
-	if(text == 'left' && playerList[player.num].x-speed >= 0){
-		playerList[player.num].x-=speed;
+function playerMove_Prediction(text,speed){		
+	var canMove = false;
+	var new_x = player.x;
+	var new_y = player.y;
+	if(text == 'left' && player.x-speed >= 0){
+		canMove = true;
+		new_x-=speed;
 	}
-	else if(text == 'right' && playerList[player.num].x+speed <= 340){
-		playerList[player.num].x+=speed;
+	else if(text == 'right' && player.x+speed <= 340){
+		canMove = true;
+		new_x+=speed;
 	}
-	else if(text == 'up' && playerList[player.num].y-speed >= 0){
-		playerList[player.num].y-=speed;
+	else if(text == 'up' && player.y-speed >= 0){
+		canMove = true;
+		new_y-=speed;
 	}
-	else if(text == 'down' && playerList[player.num].y+speed <= 400){
-		playerList[player.num].y+=speed;
+	else if(text == 'down' && player.y+speed <= 400){
+		canMove = true;
+		new_y+=speed;
 	}
-	//console.log("[LOCAL]player: "+ name +" move "+text);
+
+	if(canMove){
+		canMove = !checkPlayerCollision(new_x,new_y);
+	}
+
+	if(canMove){
+		canMove = !checkWallCollision(new_x,new_y);
+	}
+		
+	if(canMove){
+		player.x = new_x;
+		player.y = new_y;
+		console.log("[LOCAL]player: "+ player.name +" move "+text);		
+	}
 }
