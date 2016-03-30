@@ -31,9 +31,6 @@ function generateId(){
         text += possibleIdChar.charAt(Math.floor(Math.random()*possibleLen));
     return text;
 }
-function checkIP_Player(socket){
-    return socket.ip == socket.handshake.address;
-}
 
 io.sockets.on('connection', function(socket){
 	playerCount++;
@@ -46,8 +43,7 @@ io.sockets.on('connection', function(socket){
 	socket.ip = socket.handshake.address;
 	SOCKET_LIST[socket.id] = socket;
 	
-	socket.emit('playerRequestId', {
-		id: socket.id, 
+	socket.emit('sendPlayerData', {
 		num: socket.num,
 		score: socket.score
 	});
@@ -59,8 +55,6 @@ io.sockets.on('connection', function(socket){
 	});
 	
 	socket.on('playerMove', function(data){
-		var socket = SOCKET_LIST[data.id];
-
 		/*console.log('move',socket.handshake.address);
 			if(!checkIP_Player(socket)){
 			console.log('not match');
@@ -137,11 +131,16 @@ io.sockets.on('connection', function(socket){
 	}	
 	
 	socket.on('eatFood',function(data){
-		var eater = SOCKET_LIST[data.eaterId];
-		eater.score++;
-		console.log(colors.blue(' [Eat] ')+'food ID:'+colors.yellow(data.foodId)+' by '+colors.yellow(eater.name)+' score:'+colors.yellow(eater.score));
-        delete foodList[data.foodId];
-		sendFoodPack();
+		console.log(foodList[data.foodId].x,socket.x,foodList[data.foodId].y,socket.y);
+		if(foodList[data.foodId].x == socket.x && foodList[data.foodId].y == socket.y){
+			socket.score++;
+			console.log(colors.blue(' [Eat] ')+'food ID:'+colors.yellow(data.foodId)+' by '+colors.yellow(socket.name)+' score:'+colors.yellow(socket.score));
+	        delete foodList[data.foodId];
+			sendFoodPack();
+		}
+		else{
+			console.log("Cheating!!!!!!!!!!!!!!!!!!!");
+		}
     });
 });  
 
@@ -277,12 +276,11 @@ setInterval(function(){
 
 setInterval(function(){
 	for(var j = 0; j < playerCount; j++){
+		var blank = true;
 		var x = Math.floor((Math.random()*11));
 		var y = Math.floor((Math.random()*13));
 		x = mapx[x];
-		y = mapy[y];	
-
-		var blank = true;
+		y = mapy[y];
 		for(var i in foodList){
 			var afood = foodList[i];
 			if(x == afood.x && y == afood.y){
