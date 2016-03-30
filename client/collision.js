@@ -35,23 +35,12 @@ function checkFoodCollision(){
 	//food and player
 	for(var i in foodList){		
 		var isColliding = Collision(player,foodList[i]);
-<<<<<<< HEAD
 		if(isColliding){
 			var tmpId = foodList[i].id;			
 			socket.emit('eatFood', {
 				foodId: tmpId
 			});	
-			delete foodList[i];
-			addScore(1);			
-=======
-		if(isColliding){		
-			socket.emit('eatFood', {
-				foodId: i
-			});	
-			delete foodList[i];
-			addScore(1);
-
->>>>>>> refs/remotes/origin/debug-smartphone-disconnect
+			delete foodList[i];	
 		}	
 	}
 }

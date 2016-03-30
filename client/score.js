@@ -7,6 +7,10 @@ socket.on('updateHiScore',function(data){
 	hiPlayer = data.hiPlayer;
 });
 
+socket.on('validPlayerScore',function(data){
+	player.score = data.score;
+});
+
 function drawScore(){
 	ctx.textAlign = "right";
 	ctx.fillStyle = 'black';

@@ -136,6 +136,7 @@ io.sockets.on('connection', function(socket){
 			return;		
 		if(ateFood.x == socket.x && ateFood.y == socket.y){
 			socket.score++;
+			socket.emit('validPlayerScore',{score: socket.score});
 			console.log(colors.blue(' [Eat] ')+'food ID:'+colors.yellow(ateFood.id)+' by '+colors.yellow(socket.name)+' score:'+colors.yellow(socket.score));
 	        delete foodList[data.foodId]; 
 			sendFoodPack(); 
