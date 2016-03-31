@@ -40,17 +40,17 @@ io.sockets.on('connection', function(socket){
 	socket.score = 0;
 	socket.x = 170;
 	socket.y = 200;
-	socket.ip = socket.handshake.address;
-	SOCKET_LIST[socket.id] = socket;
+	socket.ip = socket.handshake.address;	
 	
 	socket.emit('sendPlayerData', {
 		num: socket.num,
 		score: socket.score
 	});
 	
-	socket.on('playerEnterName', function(data){
-		socket.name = data.name;
+	socket.on('playerLogin', function(data){
+		socket.name = (data.name);
 		socket.name = (socket.name).substring(0,6);
+		SOCKET_LIST[socket.id] = socket;
 		console.log(colors.green(' [Connect] ')+'ID:'+colors.yellow(socket.id)+', Name:'+colors.yellow(socket.name)+', Total:'+colors.yellow(playerCount));
 	});
 	
