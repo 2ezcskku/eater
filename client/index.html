@@ -9,7 +9,17 @@
 </head>
 
 <body style="background-color:black;" class="unselectable">
-	<div align="center" >
+
+	<div align="center"><form id="login" class="login" autocomplete="on">
+		<fieldset>
+    		<legend> Login </legend><br>    
+			Username: <input type="text" name="Name" pattern="[A-Za-z]+" autofocus><br><br>
+        	Password: <input type="text" name="Name" pattern="[A-Za-z]+" autofocus><br><br>
+        	<input type="button" value="login"><br>
+	 	</fieldset>		
+	</form></div>
+
+	<div id="game" align="center" style="display:none">
 		<div class="blankHead"></div>
 		<canvas id="ctx" width="340" height="400" style="border:1px solid #000000; text-align:center; background-color:#784800;"></canvas>
 		<br>

@@ -5,6 +5,11 @@
 	border-width: 5px;
 }
 
+.login{
+	color: white;
+	width: 100%;
+}
+
 .unselectable {
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
@@ -17,5 +22,8 @@
 @media (min-width : 480px){
 	.blankHead{
 		height:30px;
+	}
+	.login{
+		width: 35%;
 	}
 }	
