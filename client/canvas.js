@@ -20,7 +20,7 @@ function drawEverything(){ //draw players for main loop
 	ctx.textAlign = "center";
 	ctx.fillStyle = '#00ff99';
 	ctx.font = '40px Arial';
-	ctx.fillText(gameVersion,170,45);	
+	ctx.fillText("Eater v"+gameVersion,170,45);	
 	drawWallPosition();
 	drawFoodPosition();
 	drawPlayersPosition();

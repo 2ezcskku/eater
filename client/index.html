@@ -5,21 +5,23 @@
 	<meta name="theme-color" content="BLACK">
 	<link rel="shortcut icon" href="favicon.ico" />
 	<link type="text/css" rel="stylesheet" href="client/style.css">
-	<title id="gameVersion">Eater</title>
+	<title id="gameVersion">Eater </title>
 </head>
 
 <body style="background-color:black;" class="unselectable">
 
 	<div align="center">
-
-		<form id="login" class="login" autocomplete="on"><br>
-			<fieldset>
-	    		<legend> Login </legend><br>    
+		<div id="login" class="login"><br><br><br>
+			<img src="client/img/orange.png"> 
+			<img src="client/img/player.png"> 
+			<img src="client/img/donut.png">
+			<div style="font-size:30px" id="gameLogo">Eater </div>
+			<form autocomplete="on"><br><br>			
 				Username: <input type="text" id="username" autofocus><br><br>
-	        	Password: <input type="password" id="password"><br><br>
-	        	<input type="button" value="login" onClick="playerLogin()"><br>
-		 	</fieldset>		
-		</form>
+		        Password:&nbsp&nbsp<input type="password" id="password"><br><br>
+		        <input type="button" value="login" onClick="playerLogin()" style="width:80px;height:40px;"> 			 		
+			</form>
+		</div>
 
 		<div align="center" id="game" style="display:none">
 			<div class="blankHead"></div>
@@ -37,7 +39,7 @@
 			<img id="pineAppImg" src="client/img/pineApp.png" style="display:none">
 			<img id="donutImg" src="client/img/donut.png" style="display:none">			
 		</div>
-		
+
 	</div>
 </body>
 

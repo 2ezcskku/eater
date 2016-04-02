@@ -15,6 +15,17 @@ app.use(favicon(__dirname + '/server/favicon.ico'));//not work
 serv.listen(2000);	//serv.listen(2000,'192.168.137.1');	
 
 var SOCKET_LIST = {};
+var playerList = {};
+function player(id,password,x,y,score){
+	var newPlayer = {
+		id:id,
+		password:password,
+		x:x,
+		y:y,
+		score:score
+	};
+	playerList[id] = newPlayer;
+}
 var io = require('socket.io')(serv,{});
 var playerCount = 0;
 var idLen = 20;
@@ -23,44 +34,49 @@ var HI_PLAYER = null;
 
 console.log(colors.green('\n==========[Server Started]==========\n'));
 
-var possibleIdChar = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+/*var possibleIdChar = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 var possibleLen = possibleIdChar.length;
 function generateId(){
     var text = "";
     for(var i = 0; i < idLen; i++)
         text += possibleIdChar.charAt(Math.floor(Math.random()*possibleLen));
     return text;
-}
+}*/
 
-io.sockets.on('connection', function(socket){
-	playerCount++;
-	socket.id = generateId();
-	socket.name = "";
-	socket.num = playerCount;
-	socket.score = 0;
-	socket.x = 170;
-	socket.y = 200;
-	socket.ip = socket.handshake.address;	
-	
-	socket.emit('sendPlayerData', {
-		num: socket.num,
-		score: socket.score
-	});
-	
+io.sockets.on('connection', function(socket){	
+	socket.emit('pleaseLogin');
 	socket.on('playerLogin', function(data){
-		socket.name = (data.name);
-		socket.name = (socket.name).substring(0,6);
-		SOCKET_LIST[socket.id] = socket;
-		console.log(colors.green(' [Connect] ')+'ID:'+colors.yellow(socket.id)+', Name:'+colors.yellow(socket.name)+', Total:'+colors.yellow(playerCount));
+		data.id = (data.id).substring(0,6);
+		function socketConnect(){			
+			socket.id = (playerList[data.id].id).toString();			
+			socket.x = playerList[data.id].x;
+			socket.y = playerList[data.id].y;
+			socket.score = playerList[data.id].score;
+			socket.num = ++playerCount;
+			SOCKET_LIST[socket.id] = socket;
+			console.log(colors.green(' [Connect] ')+'ID:'+colors.yellow(socket.id)+', Number:'+colors.yellow(socket.num)+', Total:'+colors.yellow(playerCount));		
+			socket.emit('loginSuccessful', {
+				x: socket.x,
+				y: socket.y,
+				num: socket.num,
+				score: socket.score
+			});
+		}
+		if(playerList[data.id] == null){//first login
+			player(data.id,data.password,170,200,0);	
+			socketConnect();
+			
+		}
+		else if(SOCKET_LIST[data.id] == null && data.password == playerList[data.id].password){//has player data and not loged in
+			socketConnect();
+		}
+		else{
+			return;
+		}	
+		
 	});
 	
 	socket.on('playerMove', function(data){
-		/*console.log('move',socket.handshake.address);
-			if(!checkIP_Player(socket)){
-			console.log('not match');
-			return;
-		}*/
-
 		var speed = data.speed;
 		var canMove = false;
 		var new_x = socket.x;
@@ -105,17 +121,22 @@ io.sockets.on('connection', function(socket){
 		if(canMove){
 			socket.x = new_x;
 			socket.y = new_y;
-			console.log(colors.cyan(' [Move]')+' '+data.txt+','+colors.yellow(socket.name)+' to ('+colors.yellow(socket.x)+','+colors.yellow(socket.y)+')');
+			console.log(colors.cyan(' [Move]')+' '+data.txt+','+colors.yellow(socket.id)+' to ('+colors.yellow(socket.x)+','+colors.yellow(socket.y)+')');
 		}
 					
 	});
 	
 	socket.on('disconnect',function(){
-		playerCount--;
-		console.log(colors.red(' [Disconnect] ')+'ID:'+colors.yellow(socket.id)+', Name:'+colors.yellow(socket.name)+', Total:'+colors.yellow(playerCount));
+		if(playerList[socket.id] != null){
+			playerList[socket.id].x = socket.x;
+			playerList[socket.id].y = socket.y;
+			playerList[socket.id].score = socket.score;
+		}		
+		if(playerCount>0)playerCount--;
 		var disConNum = socket.num;
         delete SOCKET_LIST[socket.id];
 		deletePlayer(disConNum);
+		console.log(colors.red(' [Disconnect] ')+'ID:'+colors.yellow(socket.id)+', Name:'+colors.yellow(socket.id)+', Total:'+colors.yellow(playerCount));
     });
 	
 	function deletePlayer(disConNum){
@@ -137,7 +158,7 @@ io.sockets.on('connection', function(socket){
 		if(ateFood.x == socket.x && ateFood.y == socket.y){
 			socket.score++;
 			socket.emit('validPlayerScore',{score: socket.score});
-			console.log(colors.blue(' [Eat] ')+'food ID:'+colors.yellow(ateFood.id)+' by '+colors.yellow(socket.name)+' score:'+colors.yellow(socket.score));
+			console.log(colors.blue(' [Eat] ')+'food ID:'+colors.yellow(ateFood.id)+' by '+colors.yellow(socket.id)+' score:'+colors.yellow(socket.score));
 	        delete foodList[data.foodId]; 
 			sendFoodPack(); 
 		}
@@ -155,7 +176,7 @@ function sendPositionPack(){
 		pack.push({
 			x:		socket.x,
 			y:		socket.y,
-			name:	socket.name
+			name:	socket.id
 		});		
 	}		
 	for(var i in SOCKET_LIST){
@@ -177,7 +198,7 @@ function checkHiScore(){
 		var socket = SOCKET_LIST[i];		
 		socket.emit('updateHiScore', {
 			hiScore : HI_SCORE,
-			hiPlayer: HI_PLAYER.name 
+			hiPlayer: HI_PLAYER.id 
 		});
 	}
 }

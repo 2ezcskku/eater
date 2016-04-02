@@ -1,18 +1,19 @@
 document.addEventListener('keyup', function (evt) {			
 	var text;
-	if (evt.keyCode == 87 || evt.keyCode == 38) {
-		text = 'up';
+	if(player.name != null){
+		if (evt.keyCode == 87 || evt.keyCode == 38) {
+			text = 'up';
+		}
+		else if (evt.keyCode == 83 || evt.keyCode ==  40) {
+			text = 'down';
+		}
+		else if (evt.keyCode == 65 || evt.keyCode ==  37) {
+			text = 'left';
+		}
+		else if (evt.keyCode == 68 || evt.keyCode ==  39) {
+			text = 'right';
+		}			
 	}
-	else if (evt.keyCode == 83 || evt.keyCode ==  40) {
-		text = 'down';
-	}
-	else if (evt.keyCode == 65 || evt.keyCode ==  37) {
-		text = 'left';
-	}
-	else if (evt.keyCode == 68 || evt.keyCode ==  39) {
-		text = 'right';
-	}			
-	
 	playerMove(text);		
 });
 
@@ -57,6 +58,6 @@ function playerMove_Prediction(text,speed){
 	if(canMove){
 		player.x = new_x;
 		player.y = new_y;
-		console.log("[LOCAL]player: "+ player.name +" move "+text);		
+		//console.log("[LOCAL]player: "+ player.name +" move "+text);		
 	}
 }
