@@ -44,3 +44,17 @@ function checkFoodCollision(){
 		}	
 	}
 }
+
+function checkMonterCollision(){		
+	//food and player
+	for(var i in MonterList){		
+		var isColliding = Collision(player,MonterList[i]);
+		if(isColliding){
+			var tmpId = MonterList[i].id;			
+			socket.emit('eatMonter', {
+				MonterId: tmpId
+			});	
+			delete MonterList[i];	
+		}	
+	}
+}
