@@ -166,6 +166,26 @@ io.sockets.on('connection', function(socket){
 			console.log("Cheating!!!!!!!!!!!!!!!!!!!");
 		}
     });
+	
+	socket.on('eatMonter',function(data){
+		ateMonter = MonterList[data.MonterId];
+		if(ateMonter == null)
+			return;		
+		if(ateMonter.x == socket.x && ateMonter.y == socket.y){
+			socket.score-=2;
+			if(socket.score<0){
+				socket.score=0;
+			}
+			socket.emit('validPlayerScore',{score: socket.score});
+			console.log(colors.blue(' [Eat] ')+'Monter ID:'+colors.yellow(ateMonter.id)+' by '+colors.yellow(socket.id)+' score:'+colors.yellow(socket.score));
+	        MonterCount--;
+	        delete MonterList[data.MonterId]; 
+			sendMonterPack(); 
+		}
+		else{
+			console.log("Cheating!!!!!!!!!!!!!!!!!!!");
+		}
+    });
 });  
 
 //===================================== player ======================================//
@@ -239,6 +259,43 @@ function sendFoodPack(){
 	}
 }
 
+//===================================== Monter ======================================//
+var MonterId = 0;
+var MonterCount = 0;
+var MonterList = {};//use {} because when deleted element, length change automatic.
+function Monter(id,x,y,width,height){
+	var type = Math.floor(Math.random()*3);
+	var newFood = {
+		id:id,
+		type:type,
+		x:x,
+		y:y,
+		width:width,
+		height:height	
+	};
+	MonterList[id] = newFood;
+	MonterCount++;
+}
+
+function sendMonterPack(){
+	var pack = [];
+	for(var i in MonterList){
+		var Monter = MonterList[i];
+		pack.push({
+			id:		Monter.id,
+			type:	Monter.type,
+			x:		Monter.x,
+			y:		Monter.y,
+			width:	Monter.width,
+			height:	Monter.height
+		});	
+	}		
+	for(var i in SOCKET_LIST){
+		var socket = SOCKET_LIST[i];		
+		socket.emit('sendMonter', pack);
+	}
+}
+
 //===================================== wall ======================================//
 var wallList = {};//use {} because when deleted element, length change automatic.
 function wall(id,x,y,width,height){
@@ -296,6 +353,7 @@ setInterval(function(){
 	sendFoodPack();
 	sendWallPack();
 	checkHiScore();
+	sendMonterPack();
 },1000/25);
 
 setInterval(function(){
@@ -311,6 +369,17 @@ setInterval(function(){
 				blank = false;
 				//console.log("not blank");
 				break;
+			}
+		}
+		
+		if(blank){
+			for(var i in MonterList){
+				var aMonter = MonterList[i];
+				if(x == aMonter.x && y == aMonter.y){
+					blank = false;
+					//console.log("not blank");
+					break;
+				}
 			}
 		}
 		
@@ -340,5 +409,60 @@ setInterval(function(){
 		}	
 	}
 },2000);
+
+
+setInterval(function(){
+	if(MonterCount <= playerCount*4){
+		var blank = true;
+		var x = Math.floor((Math.random()*11));
+		var y = Math.floor((Math.random()*13));
+		x = mapx[x];
+		y = mapy[y];
+		for(var i in MonterList){
+			var aMonter = MonterList[i];
+			if(x == aMonter.x && y == aMonter.y){
+				blank = false;
+				//console.log("not blank");
+				break;
+			}
+		}
+		
+		if(blank){
+			for(var i in foodList){
+				var afood = foodList[i];
+				if(x == afood.x && y == afood.y){
+					blank = false;
+					//console.log("not blank");
+					break;
+				}
+			}
+		}
+		if(blank){
+			for(var i in SOCKET_LIST){
+				var socket = SOCKET_LIST[i];
+				if(x == socket.x && y == socket.y){
+					blank = false;
+					break;
+				}
+			}
+		}	
+		
+		if(blank){
+			for(var i in wallList){
+				var wall = wallList[i];		
+				if(x == wall.x && y == wall.y){
+					blank = false;
+					break;
+				}
+			}	
+		}		
+		
+		if(blank){
+			Monter(MonterId,x,y,30,30);
+			MonterId++;
+			console.log("monster born id:",MonterId);
+		}	
+	}
+},5000);
 
 
