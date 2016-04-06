@@ -1,23 +1,16 @@
 .butt {
-<<<<<<< HEAD
-	width: 60px;  height: 60px;
-=======
 	width: 60px;  
 	height: 60px;
->>>>>>> refs/remotes/origin/add-login
 	margin-top: 5px;
 	margin-bottom: 1px;
 	border-width: 5px;
 }
 
-<<<<<<< HEAD
-=======
 .login{
 	color: white;
 	width: 30%;
 }
 
->>>>>>> refs/remotes/origin/add-login
 .unselectable {
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
@@ -31,10 +24,7 @@
 	.blankHead{
 		height:30px;
 	}
-<<<<<<< HEAD
-=======
 	.login{
 		width: 35%;
 	}
->>>>>>> refs/remotes/origin/add-login
 }	
