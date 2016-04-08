@@ -16,7 +16,6 @@ socket.on('sendMonter', function(data){
 	for(var i in data){	
 		Monter(data[i].id,data[i].type,parseInt(data[i].x),parseInt(data[i].y),parseInt(data[i].width),parseInt(data[i].height));
 	}
-	console.log("monter born");
 });  
 	
 function drawMonterPosition(){

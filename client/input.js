@@ -1,20 +1,23 @@
 document.addEventListener('keyup', function (evt) {			
-	var text;
 	if(player.name != null){
 		if (evt.keyCode == 87 || evt.keyCode == 38) {
-			text = 'up';
+			playerMove('up');
 		}
 		else if (evt.keyCode == 83 || evt.keyCode ==  40) {
-			text = 'down';
+			playerMove('down');
 		}
 		else if (evt.keyCode == 65 || evt.keyCode ==  37) {
-			text = 'left';
+			playerMove('left');
 		}
 		else if (evt.keyCode == 68 || evt.keyCode ==  39) {
-			text = 'right';
-		}			
+			playerMove('right');
+		}		 
 	}
-	playerMove(text);		
+
+	if(evt.keyCode == 13 && !loggedIn){
+		playerLogin();
+		console.log('press enter');
+	}			
 });
 
 function playerMove(text){

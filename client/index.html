@@ -9,7 +9,7 @@
 </head>
 
 <body style="background-color:black;" class="unselectable">
-
+	<div class="blankHead"></div>
 	<div align="center">
 		<div id="login" class="login"><br><br><br>
 			<img src="client/img/orange.png"> 
@@ -19,31 +19,37 @@
 			<form autocomplete="on"><br><br>			
 				Username: <input type="text" id="username" autofocus><br><br>
 		        Password:&nbsp&nbsp<input type="password" id="password"><br><br>
-		        <input type="button" value="login" onClick="playerLogin()" style="width:80px;height:40px;"> 			 		
-			</form>
+		        <input type="button" value="login" onClick="playerLogin()" style="width:80px;height:40px;"> 
+			</form><br>
+			<div id="login-text"><br><br>
+				[ Tips ]<br>Loging in for first time also register your account automatically.
+			</div>
 		</div>
 
 		<div align="center" id="game" style="display:none">
-			<div class="blankHead"></div>
 			<canvas id="ctx" width="340" height="400" style="border:1px solid #000000; text-align:center; background-color:#784800;"></canvas>
 			<br>
-			<button onclick=playerMove('up') class="butt">Up</button><br>
-			<button onclick=playerMove('left') class="butt">left</button>
-			<button onclick=playerMove('down') class="butt">down</button>
-			<button onclick=playerMove('right') class="butt">right</button>
-			<img id="logoImg" src="client/img/logo.png" style="display:none">
-			<img id="playerImg" src="client/img/player_armor.png" style="display:none">
-			<img id="ghostImg" src="client/img/ghost.png" style="display:none">
-			<img id="orangeImg" src="client/img/orange.png" style="display:none">
-			<img id="wallImg" src="client/img/wall.png" style="display:none">
-			<img id="pineAppImg" src="client/img/pineApp.png" style="display:none">
-			<img id="donutImg" src="client/img/donut.png" style="display:none">	
-			<img id="Mon1Img" src="client/img/Mon1.png" style="display:none">	
-			<img id="Mon2Img" src="client/img/ghost.png" style="display:none">	
-			<img id="Mon3Img" src="client/img/Mon3.png" style="display:none">	
+			<div class="guide"><br>
+				Move Keys: W,A,S,D or Arrows
+			</div>		
+			<div class="button-set">
+				<button onclick=playerMove('up') class="butt">Up</button><br>
+				<button onclick=playerMove('left') class="butt">left</button>
+				<button onclick=playerMove('down') class="butt">down</button>
+				<button onclick=playerMove('right') class="butt">right</button>
+			</div>	
 		</div>
-
 	</div>
+
+	<img id="logoImg" src="client/img/logo.png" style="display:none">
+	<img id="playerImg" src="client/img/player.png" style="display:none">
+	<img id="orangeImg" src="client/img/orange.png" style="display:none">
+	<img id="wallImg" src="client/img/wall.png" style="display:none">
+	<img id="pineAppImg" src="client/img/pineApp.png" style="display:none">
+	<img id="donutImg" src="client/img/donut.png" style="display:none">	
+	<img id="Mon1Img" src="client/img/Mon1.png" style="display:none">	
+	<img id="Mon2Img" src="client/img/Mon2.png" style="display:none">	
+	<img id="Mon3Img" src="client/img/Mon3.png" style="display:none">	
 </body>
 
 <script src="client/socket.io-1.4.5.js"></script>

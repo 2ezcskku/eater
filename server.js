@@ -172,7 +172,7 @@ io.sockets.on('connection', function(socket){
 		if(ateMonter == null)
 			return;		
 		if(ateMonter.x == socket.x && ateMonter.y == socket.y){
-			socket.score-=2;
+			socket.score--;
 			if(socket.score<0){
 				socket.score=0;
 			}

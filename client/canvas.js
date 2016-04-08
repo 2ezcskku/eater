@@ -28,7 +28,7 @@ function drawEverything(){ //draw players for main loop
 	ctx.fillText("Eater v"+gameVersion,170,45);	
 	drawWallPosition();
 	drawFoodPosition();
+	drawMonterPosition();
 	drawPlayersPosition();
 	drawScore();
-	drawMonterPosition();
 }

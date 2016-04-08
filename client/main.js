@@ -1,4 +1,4 @@
-var gameVersion = "1.4";
+var gameVersion = "1.5";//1.5 add monster + login
 (document.getElementById('gameVersion')).innerHTML += "v"+gameVersion;
 (document.getElementById('gameLogo')).innerHTML += "v"+gameVersion;
 var player = {
@@ -17,15 +17,25 @@ setInterval(function(){
 	checkMonterCollision();
 },1000/25);
 
-
+var loggedIn = false;
 function playerLogin(){
 	player.name = document.getElementById("username").value;
-	if((player.name).match(/[a-z]/i) != null){
-			socket.emit('playerLogin', {
+	var password = document.getElementById("password").value;
+	var loginText = document.getElementById("login-text");
+	if((player.name).match(/[a-z]/i) == null){
+		loginText.style.color = 'red';
+		loginText.innerHTML = "<br><br>Warning!!!<br> Username must contain at least 1 alphabet."; 
+	}
+	else if(password.length < 4){
+		loginText.style.color = 'red';
+		loginText.innerHTML = "<br><br>Warning!!!<br> Password must contain at least 4 characters.";
+	}
+	else{
+		socket.emit('playerLogin', {
 			id: player.name,
-			password: document.getElementById("password").value
+			password: password
 		});
-	}	
+	}
 }
 
 socket.on('pleaseLogin', function(){
@@ -38,6 +48,7 @@ socket.on('loginSuccessful', function(data){
 	player.y = data.x;
 	player.num = data.num;
 	player.score = data.score;
+	loggedIn = true;
 	(document.getElementById('login')).style.display = "none";
 	(document.getElementById('game')).style.display = "inline";
 });	

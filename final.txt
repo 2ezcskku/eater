@@ -1,0 +1,5 @@
+﻿final game
+-ad hoc
+-bluetooth
+-nfc
+-สร้าง dbที่ทำให้เกมเร็วขึ้น
