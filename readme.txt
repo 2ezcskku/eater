@@ -1,5 +1,7 @@
 ﻿Miniproject
+รายวิชา: 322326 Computer Networks
 ชื่อโครงงาน: Multiplayer Game with HTML5 by Node.js Server (Eater)
+Source Code: https://github.com/2ezcskku/eater
 ชื่อกลุ่ม: 2EZ
 section: 2
 สมาชิกกลุ่ม:
@@ -32,5 +34,3 @@ https://nodejs.org/en/download/
 * สามารถ edit ไฟล์ StartServer.bat เพื่อเปลี่ยนพอร์ตที่จะให้เซิร์ฟเวอร์ทำงานได้ เช่น ต้องการให้ทำงานที่พอร์ต 5555 จะแก้ไขไฟล์ได้ดังนี้
 	node server.js 5555
 ** การล็อกอินครั้งแรกนั้นถือว่าเป็นการสร้างบัญชีอัตโนมัติ สามารถใช้ username และ password ใดๆก็ได้
-*** สามารถติดตามการพัฒนาโครงงานนี้ได้ผ่านทาง GitHub ดังลิงค์ด้านล่าง
-	https://github.com/2ezcskku/eater
