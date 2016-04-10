@@ -10,14 +10,17 @@ var player = {
 	hiScore:0
 };
 var socket = io();
+var loggedIn = false;
 
 setInterval(function(){		
-	drawEverything();
-	checkFoodCollision();
-	checkMonterCollision();
+	if(loggedIn){
+		drawEverything();
+		checkFoodCollision();
+		checkMonterCollision();
+	}	
 },1000/25);
 
-var loggedIn = false;
+
 function playerLogin(){
 	player.name = document.getElementById("username").value;
 	var password = document.getElementById("password").value;
@@ -26,10 +29,14 @@ function playerLogin(){
 		loginText.style.color = 'red';
 		loginText.innerHTML = "<br><br>Warning!!!<br> Username must contain at least 1 alphabet."; 
 	}
+	else if((player.name).length > 6){
+		loginText.style.color = 'red';
+		loginText.innerHTML = "<br><br>Warning!!!<br> Username must contain 1 - 6 characters.";
+	}
 	else if(password.length < 4){
 		loginText.style.color = 'red';
 		loginText.innerHTML = "<br><br>Warning!!!<br> Password must contain at least 4 characters.";
-	}
+	}	
 	else{
 		socket.emit('playerLogin', {
 			id: player.name,

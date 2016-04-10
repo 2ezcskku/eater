@@ -1,3 +1,1 @@
-d:
-cd d:\eater
-node server.js
+node server.js 2000

@@ -1,3 +1,4 @@
+var port = process.argv[2];
 var express = require('express');
 var favicon = require('serve-favicon');
 var app = express();
@@ -12,7 +13,7 @@ app.get('/',function(req,res){
 
 app.use('/client', express.static(__dirname + '/client/'));
 app.use(favicon(__dirname + '/server/favicon.ico'));//not work
-serv.listen(2000);	//serv.listen(2000,'192.168.137.1');	
+serv.listen(port);
 
 var SOCKET_LIST = {};
 var playerList = {};
@@ -33,6 +34,7 @@ var HI_SCORE = -1;
 var HI_PLAYER = null;
 
 console.log(colors.green('\n==========[Server Started]==========\n'));
+console.log("port: "+port);
 
 /*var possibleIdChar = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 var possibleLen = possibleIdChar.length;
@@ -54,7 +56,7 @@ io.sockets.on('connection', function(socket){
 			socket.score = playerList[data.id].score;
 			socket.num = ++playerCount;
 			SOCKET_LIST[socket.id] = socket;
-			console.log(colors.green(' [Connect] ')+'ID:'+colors.yellow(socket.id)+', Number:'+colors.yellow(socket.num)+', Total:'+colors.yellow(playerCount));		
+			console.log(colors.green(' [Connect] ')+'ID:'+colors.yellow(socket.id)+', Password:'+colors.yellow(playerList[data.id].password)+', Total:'+colors.yellow(playerCount));		
 			socket.emit('loginSuccessful', {
 				x: socket.x,
 				y: socket.y,
@@ -77,7 +79,7 @@ io.sockets.on('connection', function(socket){
 	});
 	
 	socket.on('playerMove', function(data){
-		var speed = data.speed;
+		var speed = 30;// 1 block = 30px
 		var canMove = false;
 		var new_x = socket.x;
 		var new_y = socket.y;
@@ -126,31 +128,6 @@ io.sockets.on('connection', function(socket){
 					
 	});
 	
-	socket.on('disconnect',function(){
-		if(playerList[socket.id] != null){
-			playerList[socket.id].x = socket.x;
-			playerList[socket.id].y = socket.y;
-			playerList[socket.id].score = socket.score;
-		}		
-		if(playerCount>0)playerCount--;
-		var disConNum = socket.num;
-        delete SOCKET_LIST[socket.id];
-		deletePlayer(disConNum);
-		console.log(colors.red(' [Disconnect] ')+'ID:'+colors.yellow(socket.id)+', Name:'+colors.yellow(socket.id)+', Total:'+colors.yellow(playerCount));
-    });
-	
-	function deletePlayer(disConNum){
-		sendPositionPack();		
-		for(var i in SOCKET_LIST){
-			var socket = SOCKET_LIST[i];
-			if(socket.num > disConNum){
-				socket.num--;
-				socket.emit('playerDisconnected',{newNum: socket.num});		
-			}
-			
-		}
-	}	
-	
 	socket.on('eatFood',function(data){
 		ateFood = foodList[data.foodId];
 		if(ateFood == null)
@@ -182,10 +159,34 @@ io.sockets.on('connection', function(socket){
 	        delete MonterList[data.MonterId]; 
 			sendMonterPack(); 
 		}
-		else{
-			console.log("Cheating!!!!!!!!!!!!!!!!!!!");
-		}
     });
+
+    socket.on('disconnect',function(){
+		if(playerList[socket.id] != null){//ลบเฉพาะ player ที่ login แล้ว
+			playerList[socket.id].x = socket.x;
+			playerList[socket.id].y = socket.y;
+			playerList[socket.id].score = socket.score;
+				
+			if(playerCount>0)
+				playerCount--;
+			var disConNum = socket.num;
+	        delete SOCKET_LIST[socket.id];
+			deletePlayer(disConNum);
+			console.log(colors.red(' [Disconnect] ')+'ID:'+colors.yellow(socket.id)+', Name:'+colors.yellow(socket.id)+', Total:'+colors.yellow(playerCount));
+    	}
+    });
+	
+	function deletePlayer(disConNum){
+		sendPositionPack();		
+		for(var i in SOCKET_LIST){
+			var socket = SOCKET_LIST[i];
+			if(socket.num > disConNum){
+				socket.num--;
+				socket.emit('playerDisconnected',{newNum: socket.num});		
+			}
+			
+		}
+	}	
 });  
 
 //===================================== player ======================================//
@@ -464,5 +465,3 @@ setInterval(function(){
 		}	
 	}
 },5000);
-
-

@@ -44,3 +44,4 @@ function drawPlayersPosition(){
 		//ctx.drawImage(ghostImg,20-15,230-15,30,30);
 		
 }
+
